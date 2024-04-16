@@ -56,9 +56,10 @@ jobs:
           username: sachinkr03
           password: docker630
       - name: Build Docker image.
-        run: docker build -t sachinkumar/todo:todo .
+        run: docker build -t sachinkr03/filesharing:filesharingusingipfs .
+        
       - name: Push Docker image
-        run: docker push sachinkumar/todo:todo
+        run: docker push sachinkr03/filesharing:filesharingusingipfs
       - name: Send Discord notification
         if: failure()
         run: |
