@@ -72,7 +72,7 @@ jobs:
   build-and-deploy:
     name: Build and Push Docker Img
     runs-on: ubuntu-latest
-    needs: validate-code
+    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -100,13 +100,13 @@ jobs:
                 }
               ]
             }' ${{ secrets.DISCORD_WEBHOOK_URL }}
-            notify-discord:
-              name: Notify Discord
-              runs-on: ubuntu-latest
-              needs: build-and-deploy
-              steps:
-                - name: Send Discord notification
-                  run: |
+  notify-discord:
+    name: Notify Discord
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    steps:
+      - name: Send Discord notification
+        run: |
                     curl -X POST -H 'Content-type: application/json' --data '{
                       "username": "CI/CD Bot",
                       "content": "CI/CD Pipeline Results",
