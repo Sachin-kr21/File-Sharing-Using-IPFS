@@ -6,6 +6,8 @@ import QRCode from 'qrcode.react';
 const Upload= () => {
   const [selectedFile, setSelectedFile] = useState();
   const [cid, setCid] = useState();
+  const [error, setError] = useState(false);
+
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -38,14 +40,18 @@ const Upload= () => {
       console.log(resData);
     } catch (error) {
       console.log(error);
+      setError(true);
+      // throw error;
     }
   };
 
   return (
     <>
     <div className="max-w-full mx-auto p-6  shadow-md rounded-lg">
-    <label className="block text-lg font-medium mb-2">Choose File</label>
-    <input type="file" onChange={changeHandler} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4" />
+      {error && <h1>Upload Failed</h1>
+      }
+    <label htmlFor="fileInput" className="block text-lg font-medium mb-2">Choose File</label>
+    <input id="fileInput" type="file" onChange={changeHandler} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4" />
     <button onClick={handleSubmission} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
       </div>
     <div>

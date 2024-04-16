@@ -42,7 +42,33 @@ jobs:
                 }
               ]
             }' ${{ secrets.DISCORD_WEBHOOK_URL }}
-
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: validate-code
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Install dependencies
+          run: npm install
+        - name: Run tests
+          run: |
+                    npm test || exit 1
+          
+        - name: Send Discord notification
+          if: failure()
+          run: |
+                    curl -X POST -H 'Content-type: application/json' --data '{
+                      "username": "ERROR",
+                      "content": "CI/CD Pipeline Results",
+                      "embeds": [
+                        {
+                          "title": "Test Status",
+                          "description": "```${{ job.status }}```",
+                          "color": 16711680
+                        }
+                      ]
+                    }' ${{ secrets.DISCORD_WEBHOOK_URL }}
   build-and-deploy:
     name: Build and Push Docker Img
     runs-on: ubuntu-latest

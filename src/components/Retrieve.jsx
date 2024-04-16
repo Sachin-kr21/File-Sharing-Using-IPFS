@@ -49,21 +49,19 @@ const Retrieve = () => {
   return (
     <>
     <div className="mt-8 px-4">
-        <label className="block text-gray-700 font-semibold mb-2">CID:</label>
-        <div className="flex items-center bg-gray-100 rounded p-2 mb-2">
+        <label htmlFor="cidInput" className="block text-gray-700 font-semibold mb-2">CID:</label>
             <input
                 type="text"
-                id="text"
+                id="cidInput"
                 value={cid}
                 onChange={changeHandler}
                 placeholder='Enter CID...'
                 className="w-full bg-transparent border-none focus:outline-none px-2"
             />
-        </div>
         {cid && (
             <div>
             <div className="flex items-center mb-2">
-                <button onClick={downloadImage} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                <button onClick={downloadImage}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
                     Download Image
                 </button>
             </div>
