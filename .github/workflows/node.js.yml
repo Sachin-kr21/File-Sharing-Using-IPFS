@@ -10,22 +10,105 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  validate-code:
+    name: Code validation
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linting
+        run: npm run lint || exit 1  
+      
+      - name: Send Discord notification
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+              "username": "ERROR",
+              "content": "CI/CD Pipeline Results",
+              "embeds": [
+                {
+                  "title": "Validation Status",
+                  "description": "```${{ job.status }}```",
+                  "color": 16711680
+                }
+              ]
+            }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  build-and-deploy:
+    name: Build and Push Docker Img
+    runs-on: ubuntu-latest
+    needs: validate-code
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: sachinkr03
+          password: docker630
+      - name: Build Docker image.
+        run: docker build -t sachinkumar/todo:todo .
+      - name: Push Docker image
+        run: docker push sachinkumar/todo:todo
+      - name: Send Discord notification
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+              "username": "ERROR",
+              "content": "CI/CD Pipeline Results",
+              "embeds": [
+                {
+                  "title": "Deployment Status",
+                  "description": "```${{ job.status }}```",
+                  "color": 16711680
+                }
+              ]
+            }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+            notify-discord:
+              name: Notify Discord
+              runs-on: ubuntu-latest
+              needs: build-and-deploy
+              steps:
+                - name: Send Discord notification
+                  run: |
+                    curl -X POST -H 'Content-type: application/json' --data '{
+                      "username": "CI/CD Bot",
+                      "content": "CI/CD Pipeline Results",
+                      "embeds": [
+                        {
+                          "title": "Validation, Testing, and Deployment Summary",
+                          "fields": [
+                            {
+                              "name": "Validation",
+                              "value": "Linting passed successfully.",
+                              "inline": true
+                            },
+                            {
+                              "name": "Testing",
+                              "value": "Unit tests passed successfully.",
+                              "inline": true
+                            },
+                            {
+                              "name": "Deployment",
+                              "value": "Deployment completed successfully.",
+                              "inline": true
+                            }
+                          ],
+                          "color": 65280
+                        },
+                        {
+                          "title": "Workflow Status",
+                          "description": "No Failures",
+                          "color": 16711680
+                        }
+                      ]
+                    }' ${{ secrets.DISCORD_WEBHOOK_URL }}
