@@ -1,12 +1,14 @@
 import {useState} from 'react';
 // import Image from './Image';
 import QRCode from 'qrcode.react';
+import { useTranslation } from "react-i18next";
 
 
 const Upload= () => {
   const [selectedFile, setSelectedFile] = useState();
   const [cid, setCid] = useState();
   const [error, setError] = useState(false);
+  const {t} = useTranslation();
 
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -48,11 +50,11 @@ const Upload= () => {
   return (
     <>
     <div className="max-w-full mx-auto p-6  shadow-md rounded-lg">
-      {error && <h1>Upload Failed</h1>
+      {error && <h1>{t("Upload Failed")}</h1>
       }
-    <label htmlFor="fileInput" className="block text-lg font-medium mb-2">Choose File</label>
+    <label htmlFor="fileInput" className="block text-lg font-medium mb-2">{t("Choose File")}</label>
     <input id="fileInput" type="file" onChange={changeHandler} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4" />
-    <button onClick={handleSubmission} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+    <button onClick={handleSubmission} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{t("Submit")}</button>
       </div>
     <div>
         {cid && (
@@ -63,7 +65,7 @@ const Upload= () => {
                     {cid}
                 </span>
                 <button className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" onClick={() => navigator.clipboard.writeText(cid)}>
-                    Copy
+                {t("Copy")}
                 </button>
             </div>
             <div className="flex items-center">
@@ -71,7 +73,7 @@ const Upload= () => {
                 {/* <Image url={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`} /> */}
                 <QRCode value={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`} className="ml-4 p-4" />
             </div>
-            <h1 className='text-l mb-2 font-bold'>Scan this to download</h1>
+            <h1 className='text-l mb-2 font-bold'>{t("Scan this to download")}</h1>
         </div>
         
         )}

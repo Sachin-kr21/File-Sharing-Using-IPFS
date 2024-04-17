@@ -1,6 +1,7 @@
 import Retrieve from "./components/Retrieve.jsx";
 import Upload from "./components/Upload.jsx";
 import Appbar from "./components/Appbar.jsx";
+import "./i18n"
 
 function App() {
   return (

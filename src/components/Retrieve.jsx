@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Image from "./Image";
 import QRCode from 'qrcode.react';
+import { useTranslation } from "react-i18next";
 
 const Retrieve = () => {
   // const [selectedFile, setSelectedFile] = useState();
@@ -8,6 +9,8 @@ const Retrieve = () => {
   const changeHandler = (event) => {
     setCid(event.target.value);
   };
+  const {t} = useTranslation();
+
   async function downloadImage() {
     // Replace `${cid}` with the actual CID of the image
     // const cid = 'your_cid_here';
@@ -55,14 +58,14 @@ const Retrieve = () => {
                 id="cidInput"
                 value={cid}
                 onChange={changeHandler}
-                placeholder='Enter CID...'
+                placeholder={t("Enter") + " CID..."}
                 className="w-full bg-transparent border-none focus:outline-none px-2"
             />
         {cid && (
             <div>
             <div className="flex items-center mb-2">
                 <button onClick={downloadImage}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-                    Download Image
+                   {t( "Download Image")}
                 </button>
             </div>
             <div className="flex items-center mb-2">
@@ -72,7 +75,7 @@ const Retrieve = () => {
                     </a>          
                       </div>
             <div className="flex items-center justify-between p-2 ">
-            <h1 className='text-l mb-2 font-bold'>Scan this to download →</h1>
+            <h1 className='text-l mb-2 font-bold'>{t("Scan this to download")} →</h1>
 
                 <QRCode value={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`} className="mr-2" />
             </div>

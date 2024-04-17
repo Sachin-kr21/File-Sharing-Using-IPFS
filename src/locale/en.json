@@ -1,0 +1,38 @@
+{
+    "translation": {
+        "Matches" : "Matches",
+        "Trending News" : "Trending News",
+        "Languages" : "Languages",
+        "Filter" : "Filter",
+        "dateFormat": "MMMM d, yyyy",
+        "Basketball":"Basketball",
+        "American Football":"American Football",
+        "Field Hockey":"Field Hockey",
+        "Rugby":"Rugby",
+        "Cricket":"Cricket",
+        "Table Tennis":"Table Tennis",
+        "My Interests" : "My Interests",
+        "All Sports" : "All Sports",
+        "Preferences" : "Preferences",
+        "Sports" : "Sports",
+        "Teams" : "Teams",
+        "Profile" : "Profile",
+        "Sign out" : "Sign out",
+        "Read More" : "Read More",
+        "Select Teams":"Select Teams",
+        "Add Preferences":"Add Preferences",
+        "Save":"Save",
+        "Reset": "Reset",
+        "Upload Failed":"Upload Failed",
+        "Choose File":"Choose File",
+        "Submit":"Submit",
+        "Copy":"Copy",
+        "Scan this to download":"Scan this to download",
+        "Enter":"Enter",
+        "Download Image":"Download Image",
+        "View Full Image":"View Full Image",
+        "File Sharing":"File Sharing"
+
+
+    }
+}
