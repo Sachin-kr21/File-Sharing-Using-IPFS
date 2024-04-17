@@ -9,7 +9,8 @@
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "serve": "vite preview --port 8100",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "NODE_ENV=production vite preview --port 8100"
   },
   "dependencies": {
     "amqplib": "^0.10.4",
