@@ -96,7 +96,7 @@ const Upload= () => {
 
   return (
     <>
-    
+    <h1 className='flex items-center justify-between text-black py-4 px-6 text-4xl font-bold'>Upload</h1>
     <div className="max-w-full mx-auto p-6  shadow-md rounded-lg">
       {error && <h1>{t("Upload Failed")}</h1>
       }
