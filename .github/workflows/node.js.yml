@@ -5,8 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "feature_testing" ]
-
+    branches: [ "feature_test" ]
 jobs:
   validate-code:
     name: Code validation
