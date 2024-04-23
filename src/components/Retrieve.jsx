@@ -51,7 +51,10 @@ const Retrieve = () => {
 
   return (
     <>
+    <h1 className='flex items-center justify-between text-black py-4 px-6 text-4xl font-bold'>Retrieve</h1>
+
     <div className="mt-8 px-4 ">
+
         <label htmlFor="cidInput" className="block text-gray-700 font-semibold mb-2">CID:</label>
             <input
                 type="text"
