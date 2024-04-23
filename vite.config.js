@@ -8,6 +8,7 @@ dotenv.config();
 export default defineConfig({
   base: "/",
 
+  
   plugins: [react(), sentryVitePlugin({
     org: "wd-s6",
     project: "file-sharing-sentry"
