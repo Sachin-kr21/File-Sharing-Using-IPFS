@@ -25,6 +25,21 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # - name: Build project
+        # run: npm run build
+
+      # - name: Install Sentry CLI
+      #   run: npm install -g @sentry/cli
+
+      # - name: Upload source maps to Sentry
+      #   env:
+      #     SENTRY_ORG: "wd-s6"
+      #     SENTRY_PROJECT: "file-sharing-sentry"
+      #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #   run: |
+      #     sentry-cli releases -o $SENTRY_ORG new ${{ github.sha }}
+      #     sentry-cli releases -o $SENTRY_ORG -p $SENTRY_PROJECT files ${{ github.sha }} upload-sourcemaps path/to/your/sourcemaps
+      #     sentry-cli releases -o $SENTRY_ORG -p $SENTRY_PROJECT set-commits --auto ${{ github.sha }}
       - name: Run linting
         run: npm run lint || exit 1  
       

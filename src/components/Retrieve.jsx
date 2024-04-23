@@ -10,11 +10,11 @@ const Retrieve = () => {
     setCid(event.target.value);
   };
   const {t} = useTranslation();
-
+  const gateway = import.meta.env.VITE_GATEWAY_URL
   async function downloadImage() {
     // Replace `${cid}` with the actual CID of the image
     // const cid = 'your_cid_here';
-    const url = `https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`;
+    const url = `https://${gateway}/ipfs/${cid}`;
     // Replace `${cid}` with the actual CID of the image
     // const cid = 'your_cid_here';
     // const url = `https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`;
@@ -44,14 +44,14 @@ const Retrieve = () => {
             document.body.removeChild(a);
         })
         .catch(error => {
-            console.error('Error downloading image:', error);
+            console.error('Error downloading :', error);
         });
 }
 
 
   return (
     <>
-    <div className="mt-8 px-4">
+    <div className="mt-8 px-4 ">
         <label htmlFor="cidInput" className="block text-gray-700 font-semibold mb-2">CID:</label>
             <input
                 type="text"
@@ -63,21 +63,21 @@ const Retrieve = () => {
             />
         {cid && (
             <div>
-            <div className="flex items-center mb-2">
+            <div className="flex items-center mb-2 p-2 ">
                 <button onClick={downloadImage}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
                    {t( "Download Image")}
                 </button>
             </div>
             <div className="flex items-center mb-2">
               
-            <a href={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`}>
-                        <Image url={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`} className="mr-2" />
-                    </a>          
+            <a href={`https://${gateway}/ipfs/${cid} `}>
+                        <Image url={`https://${gateway}/ipfs/${cid}`} className="mr-2 " />
+                    </a>        
                       </div>
             <div className="flex items-center justify-between p-2 ">
             <h1 className='text-l mb-2 font-bold'>{t("Scan this to download")} →</h1>
 
-                <QRCode value={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`} className="mr-2" />
+                <QRCode value={`https://${gateway}/ipfs/${cid}`} className="mr-2" />
             </div>
         </div>
         )}

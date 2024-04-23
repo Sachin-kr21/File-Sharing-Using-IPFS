@@ -25,7 +25,7 @@ const {t} = useTranslation();
   return (
     <>
 <nav className="flex items-center justify-between bg-gray-800 text-white py-4 px-6">
-    <span className="text-xl font-bold">{t("File Sharing")}</span>
+    <span className="text-xl font-bold">{t("File Share")}</span>
     <LanguageSelector/>
 </nav>
 

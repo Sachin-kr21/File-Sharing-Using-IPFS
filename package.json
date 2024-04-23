@@ -13,8 +13,15 @@
     "start": "NODE_ENV=production vite preview --port 8100"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@sentry/react": "^7.111.0",
+    "@sentry/vite-plugin": "^2.16.1",
     "amqplib": "^0.10.4",
     "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "html2canvas": "^1.4.1",
     "i18next": "^23.11.2",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-http-backend": "^2.5.0",

@@ -5,14 +5,15 @@ import "./i18n"
 
 function App() {
   return (
+    <>
     
     <div className="h-screen flex flex-col">
     <div className="flex-none">
         <Appbar />
     </div>
-    <div className="flex flex-grow p-4">
+    <div className="flex flex-grow p-4 ">
     <div className="w-1/2 flex justify-center bg-red-200 rounded-lg shadow-md">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto ">
             <Upload />
         </div>
     </div>
@@ -22,9 +23,10 @@ function App() {
         </div>
     </div>
 </div>
+{/* <button onClick={() => methodDoesNotExist()}>Break the world</button>; */}
 
 </div>
-
+</>
   );
 }
 
