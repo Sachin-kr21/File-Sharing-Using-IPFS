@@ -10,7 +10,7 @@ const Retrieve = () => {
     setCid(event.target.value);
   };
   const {t} = useTranslation();
-  const gateway = import.meta.env.VITE_GATEWAY_URL
+  const gateway = "scarlet-adverse-emu-312.mypinata.cloud"
   async function downloadImage() {
     // Replace `${cid}` with the actual CID of the image
     // const cid = 'your_cid_here';

@@ -30,8 +30,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
     "react-i18next": "^14.1.0",
-    "tailwind": "^4.0.0",
-    "type": "module"
+    "tailwind": "^4.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
@@ -41,6 +40,8 @@
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^8.57.0",
     "eslint-plugin-jest": "^28.2.0",
     "eslint-plugin-react": "^7.34.1",
@@ -57,7 +58,12 @@
   "jest": {
     "testEnvironment": "jest-environment-jsdom",
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.jsx?$": [
+        "babel-jest"
+      ]
+    },
+    "globals": {
+      "process.env.NODE_ENV": "test"
     }
   }
 }
