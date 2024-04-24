@@ -54,6 +54,7 @@ jobs:
                 }
               ]
             }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+            
   test:
     name: Test
     runs-on: ubuntu-latest
