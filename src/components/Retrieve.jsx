@@ -2,6 +2,7 @@ import { useState } from "react";
 import Image from "./Image";
 import QRCode from 'qrcode.react';
 import { useTranslation } from "react-i18next";
+import { saveAs } from 'file-saver';
 
 const Retrieve = () => {
   // const [selectedFile, setSelectedFile] = useState();
@@ -22,42 +23,21 @@ const retrieve = ()=>{
 }
   const {t} = useTranslation();
   const gateway = "scarlet-adverse-emu-312.mypinata.cloud"
-  async function downloadImage() {
-    // Replace `${cid}` with the actual CID of the image
-    // const cid = 'your_cid_here';
+
+async function downloadFile() {
     const url = `https://${gateway}/ipfs/${cid}`;
-    // Replace `${cid}` with the actual CID of the image
-    // const cid = 'your_cid_here';
-    // const url = `https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`;
 
     fetch(url)
         .then(response => response.blob())
         .then(blob => {
-            // Create a temporary anchor element
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            document.body.appendChild(a);
-
-            // Create object URL from the blob
-            const objectUrl = URL.createObjectURL(blob);
-
-            // Set the anchor's href to the object URL
-            a.href = objectUrl;
-
-            // Set the anchor's download attribute to force download
-            a.download = 'image.jpg';
-
-            // Simulate a click on the anchor element
-            a.click();
-
-            // Cleanup
-            URL.revokeObjectURL(objectUrl);
-            document.body.removeChild(a);
+            // Use FileSaver.js to save the blob as a file
+            saveAs(blob, 'file'); // Specify the filename here
         })
         .catch(error => {
-            console.error('Error downloading :', error);
+            console.error('Error downloading:', error);
         });
 }
+
 
 
   return (
@@ -89,8 +69,8 @@ const retrieve = ()=>{
         {cid && (
             <div>
             <div className="flex items-center mb-2 mt-2 p-2 ">
-                <button onClick={downloadImage}  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
-                   {t( "Download Image")}
+                <button onClick={downloadFile}  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
+                   {t( "Download")}
                 </button>
             </div>
             <div className="flex items-center mb-2 mt-10">
