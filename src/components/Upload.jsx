@@ -22,7 +22,7 @@ const Upload= () => {
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-
+  const [word,setWord] =  useState();
   // const handleDrop = (e) => {
   //   e.preventDefault();
   //   setSelectedFile(e.dataTransfer.files[0]);
@@ -86,6 +86,7 @@ const Upload= () => {
       // console.log("authtoken"+pinata);
       const resData = await res.json();
       setCid(resData.IpfsHash);
+      localStorage.setItem(word , resData.IpfsHash)
       console.log(resData);
     } catch (error) {
       console.log(error);
@@ -96,26 +97,49 @@ const Upload= () => {
 
   return (
     <>
-    <h1 className='flex items-center justify-between text-black py-4 px-6 text-4xl font-bold'>Upload</h1>
-    <div className="max-w-full mx-auto p-6  shadow-md rounded-lg">
+    <h1 className='flex items-center justify-between text-black py-4 px-6 text-4xl font-bold'>{t("Upload")}</h1>
+    <div className="max-w-full mx-auto p-6  shadow-md rounded-lg h-56">
       {error && <h1>{t("Upload Failed")}</h1>
       }
+       <input
+                type="text"
+                id="cidInput"
+                value={word}
+                onChange={(e)=>{
+                  setWord(e.target.value)
+                }}
+                placeholder={t("Enter") + " word..."}
+                className="w-full bg-transparent border rounded focus:outline-none p-2"
+            />
     <label htmlFor="fileInput" className="block text-lg font-medium mb-2">{t("Choose File")}</label>
     <input id="fileInput" type="file" onChange={changeHandler} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4" />
-    <button onClick={handleSubmission} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{t("Submit")}</button>
+    <button onClick={handleSubmission} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">{t("Submit")}</button>
       </div>
     <div>
         {cid && (
             <div className="mt-4">
-            <h1 className='text-l mb-2 font-bold'>CID:</h1>
-            <div className="flex items-center bg-gray-100 rounded p-2 mb-2">
+            {word && (
+            <div>
+            <h1 className='text-l mb-2 font-bold'>File successfully uploaded with the following word:</h1>
+            <div className="flex items-center bg-transparent border border-blue-500 rounded p-2 mb-2 relative">
                 <span className="flex-grow pr-7" onClick={() => navigator.clipboard.writeText(cid)}>
-                    {cid}
+                    {word}
                 </span>
-                <button className="ml-2  text-black hover:text-white font-bold py-1 px-2 rounded" onClick={() => navigator.clipboard.writeText(cid)}>
+                <button className="ml-2  text-black hover:text-white font-bold py-1 px-2 rounded absolute right-1 backdrop-blur-sm" onClick={() => navigator.clipboard.writeText(word)}>
                 <FontAwesomeIcon icon={faCopy} />
                 </button>
             </div>
+            </div>)}
+            <h1 className='text-l mb-2 font-bold'>CID:</h1>
+            <div className="flex items-center bg-transparent border border-blue-500 rounded p-2 mb-2 relative">
+                <span className="flex-grow pr-7 overflow-hidden" onClick={() => navigator.clipboard.writeText(cid)}>
+                    {cid}
+                </span>
+                <button className="ml-2  text-black hover:text-white font-bold py-1 px-2 rounded absolute right-1 backdrop-blur-sm" onClick={() => navigator.clipboard.writeText(cid)}>
+                <FontAwesomeIcon icon={faCopy} />
+                </button>
+            </div>
+            
             <div className="flex items-center">
 
                 {/* <Image url={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`} /> */}

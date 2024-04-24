@@ -7,17 +7,17 @@ function App() {
   return (
     <>
     
-    <div className="h-screen flex flex-col">
     <div className="flex-none">
         <Appbar />
     </div>
-    <div className="flex flex-grow p-4 ">
-    <div className="w-1/2 flex justify-center bg-red-200 rounded-lg shadow-md">
+    <div className="flex h-screen flex-col">
+    <div className="flex  p-4 ">
+    <div className="w-1/2 flex justify-center bg-transparent rounded-lg ">
         <div className="max-w-md mx-auto ">
             <Upload />
         </div>
     </div>
-    <div className="w-1/2 flex justify-center bg-blue-200 rounded-lg shadow-md">
+    <div className="w-1/2 flex justify-center bg-transparent rounded-lg ">
         <div className="max-w-md mx-auto">
             <Retrieve />
         </div>
