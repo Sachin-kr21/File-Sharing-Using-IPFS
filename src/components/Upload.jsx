@@ -116,6 +116,7 @@ const Upload= () => {
     <button onClick={handleSubmission} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">{t("Submit")}</button>
       </div>
     <div>
+      
         {cid && (
             <div className="mt-4">
             {word && (
