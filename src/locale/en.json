@@ -31,7 +31,9 @@
         "Enter":"Enter",
         "Download Image":"Download Image",
         "View Full Image":"View Full Image",
-        "File Share":"File Share"
+        "File Share":"File Share",
+        "Upload":"Upload",
+        "Retrieve":"Retrieve"
 
 
     }
