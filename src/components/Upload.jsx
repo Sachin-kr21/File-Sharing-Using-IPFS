@@ -1,10 +1,11 @@
-import {useState} from 'react';
+import {Fragment ,useState} from 'react';
 // import Image from './Image';
 import QRCode from 'qrcode.react';
 import { useTranslation } from "react-i18next";
 import html2canvas from 'html2canvas';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt ,faCopy ,faDownload } from '@fortawesome/free-solid-svg-icons';
+import { Dialog, Transition } from "@headlessui/react";
 
 // require('dotenv').config();
 
@@ -23,6 +24,11 @@ const Upload= () => {
     setSelectedFile(event.target.files[0]);
   };
   const [word,setWord] =  useState();
+  const [pwd , setPwd] = useState(false);
+  const [password , setPassword] = useState();
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
+
   // const handleDrop = (e) => {
   //   e.preventDefault();
   //   setSelectedFile(e.dataTransfer.files[0]);
@@ -63,7 +69,7 @@ const Upload= () => {
   const handleSubmission = async () => {
     try {
       const formData = new FormData();
-      formData.append("file", selectedFile);
+      formData.append("file", selectedFile);  
       const metadata = JSON.stringify({
         name: "File name",
       });
@@ -85,9 +91,28 @@ const Upload= () => {
       );
       // console.log("authtoken"+pinata);
       const resData = await res.json();
-      setCid(resData.IpfsHash);
-      localStorage.setItem(word , resData.IpfsHash)
-      console.log(resData);
+      // setCid(resData.IpfsHash);
+      // localStorage.setItem(word , resData.IpfsHash)
+      // console.log(word,resData.IpfsHash,password);
+      const dbFile = await fetch(
+        `http://localhost:3000/`,
+        {
+          method: "POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify({
+            name:word,
+            cid:resData.IpfsHash,
+            password: password
+          })
+        }
+      );
+      const fileData = await dbFile.json();
+      setCid(fileData.cid)
+      setUploadSuccess(true);
+
+      // setWord(fileData.name)
     } catch (error) {
       console.log(error);
       setError(true);
@@ -96,67 +121,103 @@ const Upload= () => {
   };
 
   return (
-    <>
-    <h1 className='flex items-center justify-between text-black py-4 px-6 text-4xl font-bold'>{t("Upload")}</h1>
-    <div className="max-w-full mx-auto p-6  shadow-md rounded-lg h-56">
-      {error && <h1>{t("Upload Failed")}</h1>
-      }
-       <input
-                type="text"
-                id="cidInput"
-                value={word}
-                onChange={(e)=>{
-                  setWord(e.target.value)
-                }}
-                placeholder={t("Enter") + " word..."}
-                className="w-full bg-transparent border rounded focus:outline-none p-2"
-            />
-    <label htmlFor="fileInput" className="block text-lg font-medium mb-2">{t("Choose File")}</label>
-    <input id="fileInput" type="file" onChange={changeHandler} className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4" />
-    <button onClick={handleSubmission} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">{t("Submit")}</button>
-      </div>
-    <div>
-      
-        {cid && (
-            <div className="mt-4">
-            {word && (
-            <div>
-            <h1 className='text-l mb-2 font-bold'>File successfully uploaded with the following word:</h1>
-            <div className="flex items-center bg-transparent border border-blue-500 rounded p-2 mb-2 relative">
-                <span className="flex-grow pr-7" onClick={() => navigator.clipboard.writeText(cid)}>
-                    {word}
-                </span>
-                <button className="ml-2  text-black hover:text-white font-bold py-1 px-2 rounded absolute right-1 backdrop-blur-sm" onClick={() => navigator.clipboard.writeText(word)}>
-                <FontAwesomeIcon icon={faCopy} />
-                </button>
-            </div>
-            </div>)}
-            <h1 className='text-l mb-2 font-bold'>CID:</h1>
-            <div className="flex items-center bg-transparent border border-blue-500 rounded p-2 mb-2 relative">
-                <span className="flex-grow pr-7 overflow-hidden" onClick={() => navigator.clipboard.writeText(cid)}>
-                    {cid}
-                </span>
-                <button className="ml-2  text-black hover:text-white font-bold py-1 px-2 rounded absolute right-1 backdrop-blur-sm" onClick={() => navigator.clipboard.writeText(cid)}>
-                <FontAwesomeIcon icon={faCopy} />
-                </button>
-            </div>
-            
-            <div className="flex items-center">
+    <div className="w-full max-w-md bg-white bg-opacity-80 shadow-lg rounded-lg p-6 flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold text-black mb-4">{t("Upload")}</h1>
+      {error && <h1 className="text-red-500 mb-4">{t("Upload Failed")}</h1>}
+      <input
+        type="text"
+        id="cidInput"
+        value={word}
+        onChange={(e) => setWord(e.target.value)}
+        placeholder={`${t("Enter")} word...`}
+        className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-red-400 p-3 mb-4"
+      />
+      <label htmlFor="fileInput" className="block text-lg font-medium mb-2">{t("Choose File")}</label>
+      <input
+        id="fileInput"
+        type="file"
+        onChange={changeHandler}
+        className="w-full bg-gray-200 border rounded-lg px-4 py-3 mb-4"
+      />
+      {!pwd ? (
+        <button onClick={() => setPwd(true)} className="text-blue-500 hover:underline mb-4">{t("Add password?")}</button>
+      ) : (
+        <input
+          type="password"
+          id="pwdInput"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder={`${t("Enter")} password...`}
+          className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-red-400 p-3 mb-4"
+        />
+      )}
+      <button
+        onClick={handleSubmission}
+        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition duration-300"
+      >
+        {t("Submit")}
+      </button>
 
-                {/* <Image url={`https://scarlet-adverse-emu-312.mypinata.cloud/ipfs/${cid}`} /> */}
-                <QRCode value={`https://${gateway}/ipfs/${cid}`} id="qr-code" className="ml-4 p-4" />
-                <button onClick={shareQRCode} className="ml-2 p-2 hover:text-white text-black rounded-full"><FontAwesomeIcon icon={faShareAlt} /></button>
-                <button onClick={downloadQRCode} className="ml-2 p-2 hover:text-white text-black rounded-full"><FontAwesomeIcon icon={faDownload} /></button>
-
-            </div>
-            <h1 className='text-l mb-2 font-bold'>{t("Scan this to download")}</h1>
-        </div>
-        
-        )}
+      <Transition appear show={uploadSuccess} as={Fragment}>
+  <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto bg-opacity-90 bg-gray-900" onClose={() => setUploadSuccess(false)}>
+    <div className="min-h-screen flex items-center justify-center">
+      <Dialog.Panel className="bg-white bg-opacity-80 shadow-lg rounded-lg p-6 w-full max-w-md">
+        <Dialog.Title as="h3" className="text-lg font-medium leading-6 pb-5 text-gray-900">
+          <span className="text-green-500 mr-2">&#10003;</span>
+          {t("File Uploaded Successfully")}
+        </Dialog.Title>
+        <div className="flex flex-col items-center rounded">
+        <div className="flex flex-col mb-4 w-full">
+  <div className="flex items-center mb-2">
+    <strong className="mr-2">Word:</strong>
+    <span className="bg-gray-200 rounded-lg px-4 py-2 border flex-grow overflow-hidden" onClick={() => navigator.clipboard.writeText(word)} title="Click to copy the word">
+      {word}
+    </span>
+    <button className="ml-2 text-black hover:text-white font-bold py-1 px-2 rounded-lg bg-gray-300 transition duration-300" onClick={() => navigator.clipboard.writeText(word)} title="Copy word">
+      <FontAwesomeIcon icon={faCopy} />
+    </button>
+  </div>
+  <div className="flex items-center">
+    <strong className="mr-2">CID:</strong>
+    <span className="bg-gray-200 rounded-lg px-4 py-2 border flex-grow overflow-hidden" onClick={() => navigator.clipboard.writeText(cid)} title="Click to copy the CID">
+      {cid}
+    </span>
+    <button className="ml-2 text-black hover:text-white font-bold py-1 px-2 rounded-lg bg-gray-300 transition duration-300" onClick={() => navigator.clipboard.writeText(cid)} title="Copy CID">
+      <FontAwesomeIcon icon={faCopy} />
+    </button>
+  </div>
 </div>
 
-      
-    </>
+
+
+
+
+
+
+          <div className="flex items-center justify-center">
+            <QRCode value={`https://${gateway}/ipfs/${cid}`} className="mr-4 p-4 border border-gray-300 rounded-lg" />
+            <button onClick={shareQRCode} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 mr-2">
+              <FontAwesomeIcon icon={faShareAlt} />
+            </button>
+            <button onClick={downloadQRCode} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+              <FontAwesomeIcon icon={faDownload} />
+            </button>
+          </div>
+          <h1 className="text-lg font-bold mt-4">{t("Scan this to download")}</h1>
+        </div>
+        <button
+          onClick={() => setUploadSuccess(false)}
+          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+        >
+          Close
+        </button>
+      </Dialog.Panel>
+    </div>
+  </Dialog>
+</Transition>
+
+
+    </div>
   );
 };
 
