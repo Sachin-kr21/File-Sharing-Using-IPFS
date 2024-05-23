@@ -44,7 +44,7 @@ const Retrieve = () => {
 
   const retrieve = async () => {
     try {
-      const dbFile = await fetch("http://localhost:3000/", {
+      const dbFile = await fetch("https://file-sharing-backend-wvvu.onrender.com/", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

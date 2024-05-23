@@ -95,7 +95,7 @@ const Upload= () => {
       // localStorage.setItem(word , resData.IpfsHash)
       // console.log(word,resData.IpfsHash,password);
       const dbFile = await fetch(
-        `http://localhost:3000/`,
+        `https://file-sharing-backend-wvvu.onrender.com/`,
         {
           method: "POST",
           headers:{
