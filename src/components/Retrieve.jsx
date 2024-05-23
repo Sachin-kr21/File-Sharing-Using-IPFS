@@ -40,6 +40,7 @@ const Retrieve = () => {
       retrieve();
       setIsSubmitting(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password, isSubmitting]);
 
   const retrieve = async () => {
