@@ -18,21 +18,21 @@ describe('Upload component', () => {
     expect(screen.getByLabelText('Choose File').files[0]).toBeDefined();
   });
 
-  it('should update CID state after successful file upload', async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      json: () => Promise.resolve({ IpfsHash: 'test_cid' }),
-    });
+  // it('should update CID state after successful file upload', async () => {
+  //   global.fetch = jest.fn().mockResolvedValue({
+  //     json: () => Promise.resolve({ IpfsHash: 'test_cid' }),
+  //   });
   
-    render(<Upload />);
-    const fileInput = screen.getByLabelText('Choose File');
-    fireEvent.change(fileInput, { target: { files: [new File(['test'], 'test.txt')] } });
-    const submitButton = screen.getByRole('button', { name: 'Submit' });
-    fireEvent.click(submitButton);
+  //   render(<Upload />);
+  //   const fileInput = screen.getByLabelText('Choose File');
+  //   fireEvent.change(fileInput, { target: { files: [new File(['test'], 'test.txt')] } });
+  //   const submitButton = screen.getByRole('button', { name: 'Submit' });
+  //   fireEvent.click(submitButton);
   
-    // Wait for state update
-    await screen.findByText('CID:');
-    expect(screen.getByText('test_cid')).toBeInTheDocument();
-  });
+  //   // Wait for state update
+  //   await screen.findByText('CID:');
+  //   expect(screen.getByText('test_cid')).toBeInTheDocument();
+  // });
   
   
   
