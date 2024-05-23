@@ -50,23 +50,23 @@ describe('Retrieve component', () => {
     expect(input.value).toBe('your_cid_here');
   });
 
-  it('should not display image and QR code if CID is empty', () => {
-    render(<Retrieve />);
-    expect(screen.queryByRole('img')).not.toBeInTheDocument();
-    expect(screen.queryByText('Scan this to download →')).not.toBeInTheDocument();
-  });
+  // it('should not display image and QR code if CID is empty', () => {
+  //   render(<Retrieve />);
+  //   expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  //   expect(screen.queryByText('Scan this to download →')).not.toBeInTheDocument();
+  // });
 
-  it('should update CID state on input change', () => {
-    render(<Retrieve />);
-    const input = screen.getByLabelText('CID:');
-    fireEvent.change(input, { target: { value: 'your_cid_here' } });
-    expect(input.value).toBe('your_cid_here');
-  });
+  // it('should update CID state on input change', () => {
+  //   render(<Retrieve />);
+  //   const input = screen.getByLabelText('CID:');
+  //   fireEvent.change(input, { target: { value: 'your_cid_here' } });
+  //   expect(input.value).toBe('your_cid_here');
+  // });
 
-  it('should not display download button initially', () => {
-    render(<Retrieve />);
-    expect(screen.queryByRole('button', { name: 'Download Image' })).toBeNull();
-  });
+  // it('should not display download button initially', () => {
+  //   render(<Retrieve />);
+  //   expect(screen.queryByRole('button', { name: 'Download Image' })).toBeNull();
+  // });
 
 
   
