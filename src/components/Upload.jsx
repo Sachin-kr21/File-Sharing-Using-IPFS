@@ -130,7 +130,7 @@ const Upload= () => {
         value={word}
         onChange={(e) => setWord(e.target.value)}
         placeholder={`${t("Enter")} word...`}
-        className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-red-400 p-3 mb-4"
+        className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-blue-400 p-3 mb-4"
       />
       <label htmlFor="fileInput" className="block text-lg font-medium mb-2">{t("Choose File")}</label>
       <input
@@ -148,7 +148,7 @@ const Upload= () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder={`${t("Enter")} password...`}
-          className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-red-400 p-3 mb-4"
+          className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-blue-400 p-3 mb-4"
         />
       )}
       <button
