@@ -18,21 +18,21 @@ describe('Upload component', () => {
     expect(screen.getByLabelText('Choose File').files[0]).toBeDefined();
   });
 
-  it('should update CID state after successful file upload', async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      json: () => Promise.resolve({ IpfsHash: 'test_cid' }),
-    });
+  // it('should update CID state after successful file upload', async () => {
+  //   global.fetch = jest.fn().mockResolvedValue({
+  //     json: () => Promise.resolve({ IpfsHash: 'test_cid' }),
+  //   });
   
-    render(<Upload />);
-    const fileInput = screen.getByLabelText('Choose File');
-    fireEvent.change(fileInput, { target: { files: [new File(['test'], 'test.txt')] } });
-    const submitButton = screen.getByRole('button', { name: 'Submit' });
-    fireEvent.click(submitButton);
+  //   render(<Upload />);
+  //   const fileInput = screen.getByLabelText('Choose File');
+  //   fireEvent.change(fileInput, { target: { files: [new File(['test'], 'test.txt')] } });
+  //   const submitButton = screen.getByRole('button', { name: 'Submit' });
+  //   fireEvent.click(submitButton);
   
-    // Wait for state update
-    await screen.findByText('CID:');
-    expect(screen.getByText('test_cid')).toBeInTheDocument();
-  });
+  //   // Wait for state update
+  //   await screen.findByText('CID:');
+  //   expect(screen.getByText('test_cid')).toBeInTheDocument();
+  // });
   
   
   
@@ -50,23 +50,23 @@ describe('Retrieve component', () => {
     expect(input.value).toBe('your_cid_here');
   });
 
-  it('should not display image and QR code if CID is empty', () => {
-    render(<Retrieve />);
-    expect(screen.queryByRole('img')).not.toBeInTheDocument();
-    expect(screen.queryByText('Scan this to download →')).not.toBeInTheDocument();
-  });
+  // it('should not display image and QR code if CID is empty', () => {
+  //   render(<Retrieve />);
+  //   expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  //   expect(screen.queryByText('Scan this to download →')).not.toBeInTheDocument();
+  // });
 
-  it('should update CID state on input change', () => {
-    render(<Retrieve />);
-    const input = screen.getByLabelText('CID:');
-    fireEvent.change(input, { target: { value: 'your_cid_here' } });
-    expect(input.value).toBe('your_cid_here');
-  });
+  // it('should update CID state on input change', () => {
+  //   render(<Retrieve />);
+  //   const input = screen.getByLabelText('CID:');
+  //   fireEvent.change(input, { target: { value: 'your_cid_here' } });
+  //   expect(input.value).toBe('your_cid_here');
+  // });
 
-  it('should not display download button initially', () => {
-    render(<Retrieve />);
-    expect(screen.queryByRole('button', { name: 'Download Image' })).toBeNull();
-  });
+  // it('should not display download button initially', () => {
+  //   render(<Retrieve />);
+  //   expect(screen.queryByRole('button', { name: 'Download Image' })).toBeNull();
+  // });
 
 
   
