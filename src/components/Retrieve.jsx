@@ -85,14 +85,13 @@ const Retrieve = () => {
     <div className="w-full max-w-md bg-white bg-opacity-80 shadow-lg rounded-lg p-6 flex flex-col items-center justify-center">
     <h1 className="text-3xl font-bold text-black mb-4">{t("Retrieve")}</h1>
     {error && <h1 className="text-red-500 mb-4">{t("Retrieve Failed")}</h1>}
-
           <input
             type="text"
             id="wordInput"
             value={word}
             onChange={changeHandlerWord}
             placeholder={t("Enter") + " word..."}
-            className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-red-400 p-3 mb-4"
+            className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-blue-400 p-3 mb-4"
             />
           <p className="block text-lg font-medium mb-2">or</p>
           <input
@@ -101,7 +100,7 @@ const Retrieve = () => {
             value={cid}
             onChange={changeHandler}
             placeholder={t("Enter") + " CID..."}
-            className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-red-400 p-3 mb-4"
+            className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-blue-400 p-3 mb-4"
           />
         <div className="mb-4">
           <br />
