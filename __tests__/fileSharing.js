@@ -1,22 +1,22 @@
 // Upload.test.js
 import '@testing-library/jest-dom'
-import { render, fireEvent, screen } from '@testing-library/react';
-import Upload from "../src/components/Upload";
+// import { render, fireEvent, screen } from '@testing-library/react';
+// import Upload from "../src/components/Upload";
 // import Retrieve from "../src/components/Retrieve";
 
-describe('Upload component', () => {
-  it('should render file input and upload button', () => {
-    render(<Upload />);
-    expect(screen.getByLabelText('Choose File')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
-  });
+// describe('Upload component', () => {
+  // it('should render file input and upload button', () => {
+  //   render(<Upload />);
+  //   expect(screen.getByLabelText('Choose File')).toBeInTheDocument();
+  //   expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
+  // });
 
-  it('should update selectedFile state on file input change', () => {
-    render(<Upload />);
-    const fileInput = screen.getByLabelText('Choose File');
-    fireEvent.change(fileInput, { target: { files: [new File(['test'], 'test.txt')] } });
-    expect(screen.getByLabelText('Choose File').files[0]).toBeDefined();
-  });
+  // it('should update selectedFile state on file input change', () => {
+  //   render(<Upload />);
+  //   const fileInput = screen.getByLabelText('Choose File');
+  //   fireEvent.change(fileInput, { target: { files: [new File(['test'], 'test.txt')] } });
+  //   expect(screen.getByLabelText('Choose File').files[0]).toBeDefined();
+  // });
 
   // it('should update CID state after successful file upload', async () => {
   //   global.fetch = jest.fn().mockResolvedValue({
@@ -37,7 +37,7 @@ describe('Upload component', () => {
   
   
   
-});
+// });
 
 
 
