@@ -25,22 +25,29 @@ export default defineConfig({
         {
           "src": "/favicon.ico",
           "sizes": "64x64 32x32 24x24 16x16",
-          "type": "image/x-icon"
+          "type": "image/x-icon",
+          "purpose":"any maskable"
+
         },
         {
           "src": "/favicon-16x16.png",
           "type": "image/png",
-          "sizes": "16x16"
+          "sizes": "16x16",
+          "purpose":"any maskable"
         },
         {
           "src": "/favicon-32x32.png",
           "type": "image/png",
-          "sizes": "32x32"
+          "sizes": "32x32",
+          "purpose":"any maskable"
+
         },
         {
           "src": "/pwa-192x192.png",
           "type": "image/png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "purpose":"any maskable"
+
         },
         {
           "src": "/pwa-512x512.png",
