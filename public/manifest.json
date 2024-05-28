@@ -22,6 +22,12 @@
       "sizes": "512x512",
       "purpose":"any maskable"
 
+    },{
+      "src": "wallpaperflare.com_wallpaper.jpg",
+      "type": "image/jpg",
+      "sizes": "512x512",
+      "purpose":"any maskable"
+
     }
   ],
   "start_url": ".",
