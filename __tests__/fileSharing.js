@@ -1,15 +1,15 @@
 // Upload.test.js
 import '@testing-library/jest-dom'
-// import { render, fireEvent, screen } from '@testing-library/react';
-// import Upload from "../src/components/Upload";
+import { render, screen } from '@testing-library/react';
+import Upload from "../src/components/Upload";
 // import Retrieve from "../src/components/Retrieve";
 
-// describe('Upload component', () => {
-  // it('should render file input and upload button', () => {
-  //   render(<Upload />);
-  //   expect(screen.getByLabelText('Choose File')).toBeInTheDocument();
-  //   expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
-  // });
+describe('Upload component', () => {
+  it('should render file input and upload button', () => {
+    render(<Upload />);
+    // expect(screen.getByLabelText('Choose File')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
+  });
 
   // it('should update selectedFile state on file input change', () => {
   //   render(<Upload />);
@@ -37,7 +37,7 @@ import '@testing-library/jest-dom'
   
   
   
-// });
+});
 
 
 
