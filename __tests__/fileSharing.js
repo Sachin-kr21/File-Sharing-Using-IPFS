@@ -2,7 +2,7 @@
 import '@testing-library/jest-dom'
 import { render, fireEvent, screen } from '@testing-library/react';
 import Upload from "../src/components/Upload";
-import Retrieve from "../src/components/Retrieve";
+// import Retrieve from "../src/components/Retrieve";
 
 describe('Upload component', () => {
   it('should render file input and upload button', () => {
