@@ -17,18 +17,24 @@ const Retrieve = () => {
   const { t } = useTranslation();
   const gateway = "scarlet-adverse-emu-312.mypinata.cloud";
   const [error,setError] = useState(false);
-  const [retrieveSuccess,setRetrieveSuccess] = useState(true);
-  const closeModal = () => {
+  const [retrieveSuccess,setRetrieveSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // New state for loading
+  const [progress, setProgress] = useState(0);
+
+  const closePasswordModal = () => {
     setIsOpen(false);
   };
-
-  const openModal = () => {
+  const openPasswordModal = () => {
     setIsOpen(true);
   };
+  const closeModal = () => {
+    setRetrieveSuccess(false);
+    setWord("");
+  }
 
-  const changeHandler = (event) => {
-    setCid(event.target.value);
-  };
+  // const changeHandler = (event) => {
+  //   setCid(event.target.value);
+  // };
 
   const changeHandlerWord = (event) => {
     setWord(event.target.value);
@@ -44,6 +50,8 @@ const Retrieve = () => {
   }, [password, isSubmitting]);
 
   const retrieve = async () => {
+    setProgress(50);
+    setIsLoading(true); 
     try {
       const dbFile = await fetch("https://file-sharing-backend-wvvu.onrender.com/", {
         method: "PUT",
@@ -55,17 +63,27 @@ const Retrieve = () => {
           password: password ? password : "",
         }),
       });
+      setProgress(90);
+      
+
       const fileData = await dbFile.json();
+
       if (fileData.cid) {
+
         setCid(fileData.cid);
         setRetrieveSuccess(true);
       } else {
+    setProgress(90);
+
         setMessage(fileData);
-        openModal();
+        openPasswordModal();
       }
     } catch (error) {
       console.error("Error retrieving file:", error);
       setError(true);
+    }
+    finally {
+      setIsLoading(false); 
     }
   };
 
@@ -93,7 +111,7 @@ const Retrieve = () => {
             placeholder={t("Enter") + " word..."}
             className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-blue-400 p-3 mb-4"
             />
-          <p className="block text-lg font-medium mb-2">or</p>
+          {/* <p className="block text-lg font-medium mb-2">or</p>
           <input
             type="text"
             id="cidInput"
@@ -101,18 +119,29 @@ const Retrieve = () => {
             onChange={changeHandler}
             placeholder={t("Enter") + " CID..."}
             className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-blue-400 p-3 mb-4"
-          />
+          /> */}
         <div className="mb-4">
           <br />
         </div>
-
-                    <button         className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition duration-300"
-            onClick={retrieve}>
-              {t("Retrieve")}
-            </button>
+            <button
+        onClick={retrieve}
+        className="w-full bg-green-600 hover:bg-green-800 text-white font-bold py-3 rounded-lg transition duration-300"
+        disabled={isLoading} // Disable button while loading
+      >
+        {isLoading ? (
+          <div className="flex flex-col items-center">
+            <div className="w-2/3 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+              <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
+            </div>
+            <span className="mt-2">{t("Retrieving...")}</span>
+          </div>
+        ) : (
+          t("Retrieve")
+        )}
+      </button>
           {isOpen && (
             <Transition appear show={isOpen} as={Fragment}>
-              <Dialog as="div" className="relative z-10" onClose={closeModal}>
+              <Dialog as="div" className="relative z-10" onClose={closePasswordModal}>
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -146,7 +175,7 @@ const Retrieve = () => {
                               const pwd = document.getElementById('pwd').value;
                               setPassword(pwd);
                               setIsSubmitting(true);
-                              closeModal();
+                              closePasswordModal();
                             }}
                             className="bg-blue-400 border border-white rounded p-2 pl-3 pr-3 text-white"
                           >
@@ -161,7 +190,7 @@ const Retrieve = () => {
             </Transition>
           )}
           <Transition appear show={retrieveSuccess} as={Fragment}>
-  <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto bg-opacity-90 bg-gray-900" onClose={() => setRetrieveSuccess(false)}>
+  <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto bg-opacity-90 bg-gray-900" onClose={() => closeModal()}>
     <div className="min-h-screen flex items-center justify-center">
       <Dialog.Panel className="bg-white bg-opacity-80 shadow-lg rounded-lg p-6 w-full max-w-md">
         <Dialog.Title as="h3" className="text-lg font-medium leading-6 pb-5 text-gray-900">
@@ -169,6 +198,7 @@ const Retrieve = () => {
           {t("File Retrieved Successfully")}
         </Dialog.Title>
         <div>
+                <h1 className="text-2xl font-medium leading-6 text-gray-900 bold text-center ">{word}</h1>
               <div className="flex items-center mb-2 mt-10">
                 <a href={`https://${gateway}/ipfs/${cid}`}>
                   <Image url={`https://${gateway}/ipfs/${cid}`} className="mr-2" />
