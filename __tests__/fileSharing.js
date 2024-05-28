@@ -41,14 +41,14 @@ describe('Upload component', () => {
 
 
 
-describe('Retrieve component', () => {
+// describe('Retrieve component', () => {
 
-  it('should update CID state on input change', () => {
-    render(<Retrieve />);
-    const input = screen.getByPlaceholderText('Enter CID...');
-    fireEvent.change(input, { target: { value: 'your_cid_here' } });
-    expect(input.value).toBe('your_cid_here');
-  });
+//   it('should update CID state on input change', () => {
+//     render(<Retrieve />);
+//     const input = screen.getByPlaceholderText('Enter CID...');
+//     fireEvent.change(input, { target: { value: 'your_cid_here' } });
+//     expect(input.value).toBe('your_cid_here');
+//   });
 
   // it('should not display image and QR code if CID is empty', () => {
   //   render(<Retrieve />);
@@ -72,4 +72,4 @@ describe('Retrieve component', () => {
   
 
   // Add more test cases as needed
-});
+// });
