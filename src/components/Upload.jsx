@@ -4,7 +4,7 @@ import QRCode from 'qrcode.react';
 import { useTranslation } from "react-i18next";
 import html2canvas from 'html2canvas';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareAlt ,faCopy ,faDownload ,faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faShareAlt ,faCopy ,faDownload ,faTimes,faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Dialog, Transition } from "@headlessui/react";
 
 // require('dotenv').config();
@@ -18,20 +18,27 @@ const Upload= () => {
   const [error, setError] = useState(false);
   const {t} = useTranslation();
   const [passwordVisible, setPasswordVisible] = useState(false); // New state for password visibility
+  const [fileSelected, setFileSelected] = useState(false);
 
   const gateway = "scarlet-adverse-emu-312.mypinata.cloud"
   const pinata = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyYjU5NmNhMS01YmY4LTQ1ZjUtYTA5Zi1lYTkyZjBlYWZiMTAiLCJlbWFpbCI6InNhY2hpbjIxMDMwMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMGZiZTFkNmU3ZGZiNjQyZjEwZDEiLCJzY29wZWRLZXlTZWNyZXQiOiJjYzIzZmQ0NjUwMTNhOTk0MWJmYjI1YjUxYTYyZDdmNDQ0MjU3ZDJhMjA2MzViYjBiYWIyYTZjNjYwZDU2YjU3IiwiaWF0IjoxNzEzMjcxNjQzfQ.BsjZ5jJwmZTS4XFn4D3rgK4bJMVSnOklncXVHIEnBms"
   const cloudApi = "https://api.pinata.cloud/pinning/pinFileToIPFS"
   const [isLoading, setIsLoading] = useState(false); // New state for loading
   const [progress, setProgress] = useState(0);
-  const changeHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
   const [word,setWord] =  useState();
   const [pwd , setPwd] = useState(false);
   const [password , setPassword] = useState();
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const fileInputRef = useRef(null);
+  
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    if (event.target.files.length > 0) {
+      setFileSelected(true);
+    } else {
+      setFileSelected(false);
+    }
+  };
 
   const closeModal = () => {
     setUploadSuccess(false);
@@ -141,6 +148,10 @@ const Upload= () => {
     }
   };
 
+  const deleteFile = () => {
+    fileInputRef.current.value = null; // Clear the file input
+    setFileSelected(false); // Update state to reflect no file is selected
+  };
 return (
     <div className="w-full max-w-md bg-white bg-opacity-80 shadow-lg rounded-lg p-6 flex flex-col items-center justify-center h-full">
       <h1 className="text-3xl font-bold text-black mb-4">{t("Upload")}</h1>
@@ -154,17 +165,31 @@ return (
         className="w-full bg-gray-200 border rounded-lg focus:ring-2 focus:ring-blue-400 p-3 mb-4"
       />
       {/* <label htmlFor="fileInput" className="block text-lg font-medium mb-2">{t("Choose File")}</label> */}
-<input
-  id="fileInput"
-  type="file"
-  ref={fileInputRef}
-  onChange={changeHandler}
-  className="hidden"
-/>
-<button
-  onClick={() => fileInputRef.current.click()}
-  className="w-full bg-blue-100 border rounded-lg px-4 py-3 mb-4"
->{t("Choose File")}</button>
+      <div className="flex w-full">
+      <input
+        id="fileInput"
+        type="file"
+        ref={fileInputRef}
+        onChange={changeHandler}
+        className="hidden"
+      />
+      <button
+        onClick={() => fileInputRef.current.click()}
+        className={`border rounded-l-lg px-4 py-3 mb-4 ${fileSelected ? "bg-blue-300" : "bg-blue-100 w-full"}`}
+        style={{ width: fileSelected ? 'calc(100% - 50px)' : '100%' }}
+      >
+        {fileSelected ? t("File Chosen") : t("Choose File")}
+      </button>
+      {fileSelected && (
+        <button
+          onClick={deleteFile}
+          className="bg-red-300 border-l-0 border rounded-r-lg px-4 py-3 mb-4 flex items-center justify-center"
+          style={{ width: '50px' }}
+        >
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+      )}
+    </div>
       {!pwd ? (
         <button onClick={() => setPwd(true)} className="text-blue-500 hover:underline mb-4">{t("Add password?")}</button>
       ) : (
