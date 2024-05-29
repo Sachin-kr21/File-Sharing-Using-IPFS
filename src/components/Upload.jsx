@@ -45,6 +45,9 @@ const Upload= () => {
     setWord("");
     setPassword("");
     fileInputRef.current.value = null; 
+    setSelectedFile(null);
+    setFileSelected(false);
+    
   }
 
   // const handleDrop = (e) => {
